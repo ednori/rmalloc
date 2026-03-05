@@ -1,7 +1,6 @@
 #ifndef BASE_H
 #define BASE_H
 
-#include <math.h>
 #include <stdbool.h>
 #include <stddef.h>
 #include <stdint.h>
@@ -48,7 +47,6 @@ typedef bool b8;
 #define ALIGN_POW2(n) (((n) + ALIGNMENT - 1) & ~(ALIGNMENT - 1))
 #define IS_ALIGNED(n) (((n) & (ALIGNMENT - 1)) == 0)
 
-
 /* Memory ops */
 #define MEMSET __builtin_memset
 #define MEMCPY __builtin_memcpy
@@ -62,22 +60,28 @@ typedef bool b8;
 
 /* Math */
 #define PI 3.14159265358979323846
-static inline f32 lerp(f32 a, f32 b, f32 t) { return a + t * (b - a); }
+static inline f32 lerp(f32 a, f32 b, f32 t) {
+  return a + t * (b - a);
+}
 
 /* Assertions */
-#define ASSERT_MSG(cond, msg)                                                  \
-  do {                                                                         \
-    if (!(cond)) {                                                             \
-      fprintf(stderr,                                                          \
-              "ASSERT FAILED: %s\n"                                            \
-              "MESSAGE: %s\n"                                                  \
-              "FILE: %s\n"                                                     \
-              "LINE: %d\n",                                                    \
-              #cond, msg, __FILE__, __LINE__);                                 \
-      abort();                                                                 \
-    }                                                                          \
+#define ASSERT_MSG(cond, msg)                                                                      \
+  do {                                                                                             \
+    if (!(cond)) {                                                                                 \
+      fprintf(stderr,                                                                              \
+              "ASSERT FAILED: %s\n"                                                                \
+              "MESSAGE: %s\n"                                                                      \
+              "FILE: %s\n"                                                                         \
+              "LINE: %d\n",                                                                        \
+              #cond, msg, __FILE__, __LINE__);                                                     \
+      abort();                                                                                     \
+    }                                                                                              \
   } while (0)
 
+#define ASSERT(x) ASSERT_MSG(x, "Assertion failed")
+
+#ifdef BASE_IMPLEMENTATION
+/* Implementation */
 #endif
 
-#define ASSERT(x) ASSERT_MSG(x, "Assertion failed")
+#endif
